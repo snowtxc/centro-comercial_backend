@@ -8,5 +8,5 @@ const relationship = require("./Relationships");
 
 
 server.listen(PORT,function(){ 
-    console.log("Servidor inciado!");
+    console.log("Servidor inciado! en el puerto:" + PORT);
 })

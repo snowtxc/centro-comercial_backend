@@ -27,4 +27,7 @@ EmpresaModel.belongsTo(LocalidadModel);
 
 //Many to many 
 EmpresaModel.belongsToMany(ContactoModel, { through: 'ContactoEmpresa'});
-conexion.sync()
+ContactoModel.belongsToMany(EmpresaModel, {through: 'ContactoEmpresa'}) 
+
+
+conexion.sync()  

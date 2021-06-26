@@ -13,7 +13,7 @@ const EmpresaController = require("../Controllers/EmpresaController");
 router.post("/empresas", EmpresaController.create);
 router.put("/empresas/:id", EmpresaController.editById);
 router.delete("/empresas/:id",EmpresaController.deleteById);
-router.get("/empresas/:id",  EmpresaController.getAll);
+router.get("/empresas",  EmpresaController.getAll);
 router.get("/empresas/:id", EmpresaController.getById);
 
 

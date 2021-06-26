@@ -8,7 +8,7 @@ const DepartamentoModel = conexion.define("Departamento", {
         type: DataTypes.STRING,
         allowNull: false
     } 
-})
+})  
 
 
 module.exports = DepartamentoModel;
