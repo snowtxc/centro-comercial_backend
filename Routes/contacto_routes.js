@@ -10,13 +10,19 @@ const router = require('express').Router();
 
 const ContactoController = require('../Controllers/ContactoController');
 
+//Middlewares
+
+const verifyToken = require("../Middlewares/verifiyToken");
+const isAdmin  = require("../Middlewares/isAdmin");
 
 
-router.post("/contactos",  ContactoController.create);
-router.put("/contactos/:id ",  ContactoController.editById);
-router.delete("/contactos/:id",  ContactoController.deleteById);
-router.get("/contactos",ContactoController.getAll);
-router.get("/contactos/:id", ContactoController.getById);
+
+router.post("/contactos", verifyToken, isAdmin, ContactoController.create);
+router.post("/contactos/:idcontacto/empresas/:idempresa", verifyToken,isAdmin ,ContactoController.asociateEmpresa);
+router.put("/contactos/:id ", verifyToken,isAdmin, ContactoController.editById);
+router.delete("/contactos/:id", verifyToken, isAdmin ,ContactoController.deleteById);
+router.get("/contactos", verifyToken, isAdmin, ContactoController.getAll);
+router.get("/contactos/:id", verifyToken, isAdmin, ContactoController.getById);
 
 
 

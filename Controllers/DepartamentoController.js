@@ -71,7 +71,7 @@ var DepartamentoController = {
             
         })
 
-    },
+    }, 
 
     getById: async function(request,response){
         const ID_DEPARTMENT = request.params.id;

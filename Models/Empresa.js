@@ -26,11 +26,7 @@ const EmpresaModel = conexion.define("Empresa", {
 
     email: {
         type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-        validate: { 
-            isEmail: true
-        }
+        allowNull: false
     },
 
     celular: {

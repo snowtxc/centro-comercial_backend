@@ -15,6 +15,7 @@ const handleFatalError = require("../_helpers/handleFatalError");
 
 const ContactoModel = require("../Models/Contacto");
 const EmpresaModel = require("../Models/Empresa");
+const Contacto_Empresa_Model = require("../Models/Contacto_Empresa");
 
 
 
@@ -94,6 +95,23 @@ var ContactoController = {
         })
 
     },
+
+    asociateEmpresa: async function(request,response){
+        
+        const contactoID = request.params.idcontacto;
+        const empresaID =  request.params.idempresa;
+
+        const body = request.body;
+
+        Contacto_Empresa_Model.create({EmpresaId: empresaID, ContactoId: contactoID, relacion: body.relacion}).then((result) =>{
+            response.status(201).send({ msg: 'Empresa asociada correctamente!' });
+
+        }).catch((err) =>{
+            handleFatalError(err);
+            response.status(500).send("Ha ocurrido un error!");
+        })
+
+    }
 
 
 }

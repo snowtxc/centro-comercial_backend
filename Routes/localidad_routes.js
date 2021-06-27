@@ -7,13 +7,13 @@
 const router = require('express').Router();
 
 const LocalidadController = require("../Controllers/LocalidadController");
+const verifyToken = require("../Middlewares/verifiyToken");
 
-
-router.post("/localidades", LocalidadController.create);
-router.put("/localidades/:id", LocalidadController.editById);
-router.delete("/localidades/:id", LocalidadController.deleteById);
-router.get("/localidades", LocalidadController.getAll);
-router.get("/localidades/:id", LocalidadController.getById);
+router.post("/localidades", verifyToken, LocalidadController.create);
+router.put("/localidades/:id", verifyToken, LocalidadController.editById);
+router.delete("/localidades/:id", verifyToken, LocalidadController.deleteById);
+router.get("/localidades",verifyToken, LocalidadController.getAll);
+router.get("/localidades/:id", verifyToken,  LocalidadController.getById);
 
 
 

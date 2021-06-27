@@ -24,7 +24,7 @@ var LocalidadController = {
         });
 
     },
-
+ 
 
     editById: async function (request, response) {
         const ID_LOCALIDAD = request.params.id;

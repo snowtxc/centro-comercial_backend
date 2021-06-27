@@ -4,7 +4,7 @@ const { DataTypes } = require("sequelize");
 
 const bcrypt = require("bcrypt");
 
-
+const handleFatalError = require("../_helpers/handleFatalError");
 
 const saltRounds = 10; 
 
@@ -29,6 +29,11 @@ const UserModel = conexion.define("User", {
     username: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+
+    isAdmin: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
     }
 })
 
@@ -38,6 +43,7 @@ UserModel.prototype.validateUser = async function (email, password, callback) {
         if (!user) {
             callback(null, false);
         }
+
         const succesValidate = bcrypt.compareSync(password, user.password);
         if (succesValidate) {
             callback(null, user);

@@ -1,16 +1,18 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const fileUpload = require("express-fileupload");
 
 const app = new express();
 
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
+app.use(fileUpload());
 
 
 //Archivos de rutas
 const user_routes = require("./Routes/user_routes");
+const auth_routes = require("./Routes/authentication_routes");
 const localidad_routes = require("./Routes/localidad_routes");
 const empresa_routes = require("./Routes/empresa_routes");
 const departamento_routes = require("./Routes/departamento_routes");
@@ -29,10 +31,12 @@ app.use((req, res, next) => {
 
 //Rutas
 app.use('/api', user_routes);
+app.use('/api', auth_routes);
 app.use('/api', localidad_routes);
 app.use('/api', empresa_routes);
 app.use('/api', departamento_routes);
 app.use('/api', contacto_routes);
+
 
 
   

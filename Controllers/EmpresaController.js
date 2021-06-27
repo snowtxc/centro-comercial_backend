@@ -1,47 +1,69 @@
-// CREATE: /api/empresas   METODO: POST
-// EDIT: /api/empresas /: id    METODO: PUT
-// DELETE / api / empresas /: id     METODO: DELETE
-// READ / api / empresas        METODO: GET     //Con contactos asociados a cada una de ellas.
-// READ / api / empresas /: id         METODO: GET
-
 
 const jwt = require("jsonwebtoken");
 const handleFatalError = require("../_helpers/handleFatalError");
 
 const EmpresaModel = require("../Models/Empresa");
 const ContactoModel = require("../Models/Contacto");
+const Contacto_Empresa_Model = require("../Models/Contacto_Empresa");
+const UserModel = require("../Models/User");
 
+
+const checkIfEmailExist = require("../_helpers/checkIfEmailExist");
+const checkIfIsImage = require("../_helpers/checkIfIsImage");
+const e = require("express");
 
 
 var EmpresaController = {
 
-    create: function(request,response) {
-        
+    create: async function(request,response) {
         const body = request.body;
-        EmpresaModel.create({Nombre: body.nombre
-            ,razon_social: body.razon_social,
-            rut: body.rut, 
-            Direccion: body.Direccion,
-            email: body.email,
-            celular: body.celular, 
-            telefono: body.telefono, 
-            nro_bps: body.nro_bps, 
-            nro_referencia : body.nro_referencia ,
-            rubro: body.rubro,  
-            rubro_secundario: body.rubro_secundario,
-            fecha_afiliacion: body.fecha_afiliacion, 
-            fecha_inicio_empresa: body.fecha_inicio_empresa,
-            estado: body.estado, url_logo: body.url_logo,
-            observaciones: body.observaciones
+
+        const file  = request.files.logo;
+        const fileName = file.name;
+        const extension = fileName.split(".")[1];
         
-        }).then(() =>{
-            response.status(201).send({msg: 'Empresa creada correctamente!'});
+        if(checkIfIsImage(extension)){
+            const newNameFile = Math.floor(Date.now() / 1000).toString();
 
-        }).catch((error) =>{
-            handleFatalError(err);
-            response.status(500).send("Ha ocurrido un error");
-        });
+            await file.mv("public/logos_empresas/"+newNameFile+"."+extension).then((err,result) =>{
+                if(err){
+                    response.status(500).send("Ha ocurrido un error!");
+                }
+            });
 
+            await EmpresaModel.create({
+                Nombre: body.nombre
+                , razon_social: body.razon_social,
+                rut: body.rut,
+                Direccion: body.Direccion,
+                email: body.email,
+                celular: body.celular,
+                telefono: body.telefono,
+                nro_bps: body.nro_bps,
+                nro_referencia: body.nro_referencia,
+                rubro: body.rubro,
+                rubro_secundario: body.rubro_secundario,
+                fecha_afiliacion: body.fecha_afiliacion,
+                fecha_inicio_empresa: body.fecha_inicio_empresa,
+                estado: body.estado, url_logo: body.url_logo,
+                observaciones: body.observaciones
+
+            }).then(async (empresaRegistrada) => {
+                const idEmpresaRegister = empresaRegistrada.dataValues.id;
+                await UserModel.create({ email: body.user_email, password: body.password_user, username: body.nombre_usuario, isAdmin: false, EmpresaId: idEmpresaRegister });
+
+
+                response.status(201).send({ msg: 'Empresa creada correctamente!' });
+
+            }).catch((err) => {
+                handleFatalError(err);
+                response.status(500).send("Ha ocurrido un error");
+            });
+
+
+        }else{
+            response.status(409).send("Archivo invalido");
+        }
     },
 
     editById: async function (request, response) {
@@ -119,7 +141,27 @@ var EmpresaController = {
             response.status(500).send("Ha ocurrido un error")
         })
 
+    },
+
+    asociateContacto: async function(request,response){
+        const empresaID = request.params.idempresa;
+        const contactoID = request.params.idcontacto;
+     
+        const body = request.body;
+
+        Contacto_Empresa_Model.create({ EmpresaId: empresaID, ContactoId: contactoID, relacion: body.relacion }).then(() => {
+            response.status(201).send({msg: 'Contacto asociado correctamente!'});
+        }).catch((err) => {
+            handleFatalError(err);
+            response.status(500).send("Ha ocurrido un error!");
+        })
+
     }
+   
+
+   
+
+
 }
 
 module.exports = EmpresaController;

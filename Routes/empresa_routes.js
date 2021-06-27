@@ -9,12 +9,16 @@ const router = require('express').Router();
 
 const EmpresaController = require("../Controllers/EmpresaController");
 
+//Middlewares
+const verifiyToken = require("../Middlewares/verifiyToken");
 
-router.post("/empresas", EmpresaController.create);
-router.put("/empresas/:id", EmpresaController.editById);
-router.delete("/empresas/:id",EmpresaController.deleteById);
-router.get("/empresas",  EmpresaController.getAll);
-router.get("/empresas/:id", EmpresaController.getById);
+router.post("/empresas",verifiyToken,EmpresaController.create);
+router.post("/empresas/:idempresa/contactos/:idcontacto", verifiyToken, EmpresaController.asociateContacto);
+router.put("/empresas/:id",verifiyToken, EmpresaController.editById);
+router.delete("/empresas/:id", verifiyToken, EmpresaController.deleteById);
+router.get("/empresas", verifiyToken, EmpresaController.getAll);
+router.get("/empresas/:id", verifiyToken, EmpresaController.getById);
+
 
 
 
