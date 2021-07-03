@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const con = require("../database");
 
 const UserModel = require("../Models/User");
 const handleFatalError = require("../_helpers/handleFatalError");
@@ -6,6 +7,8 @@ const handleFatalError = require("../_helpers/handleFatalError");
 function isAdmin(request, response, next) {
 
     const IDUSER = request.userID;
+
+    
 
     UserModel.findOne({where: {id:IDUSER,isAdmin: 1}}).then((result) =>{   //SELECT USERS ADMINISTRADORES CON ESA ID
         if(!result){

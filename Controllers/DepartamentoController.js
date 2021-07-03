@@ -14,6 +14,8 @@ const LocalidadModel = require("../Models/Localidad");
 var DepartamentoController = {
 
     create: async function (request, response) {
+
+     
         const body = request.body;
 
         DepartamentoModel.create({name:body.nombre}).then(() =>{
@@ -44,7 +46,7 @@ var DepartamentoController = {
             response.status(500).send("Ha ocurrido un error!");
         })
 
-    },
+    }, 
 
     deleteById: async function (request, response) {
         const ID_DEPARTMENT = request.params.id;
