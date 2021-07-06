@@ -6,8 +6,6 @@ const handleFatalError = require("../_helpers/handleFatalError");
 
 //   /api/users/:id
 var UserController = {
-
-
     getById: function(request,response){
         const userID = 5;
         

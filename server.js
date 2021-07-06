@@ -1,14 +1,9 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const fileUpload = require("express-fileupload");
-
-const app = new express();
+var express = require("express");
+var bodyParser = require("body-parser");
+var fileUpload = require("express-fileupload");
 
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(fileUpload());
-
+const app = new express(); 
 
 //Archivos de rutas
 const user_routes = require("./Routes/user_routes");
@@ -16,7 +11,14 @@ const auth_routes = require("./Routes/authentication_routes");
 const localidad_routes = require("./Routes/localidad_routes");
 const empresa_routes = require("./Routes/empresa_routes");
 const departamento_routes = require("./Routes/departamento_routes");
-const contacto_routes =  require("./Routes/contacto_routes");
+const contacto_routes = require("./Routes/contacto_routes");
+
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(fileUpload());  
+         
+
 
 
 //CORS

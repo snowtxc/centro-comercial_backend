@@ -48,7 +48,7 @@ var DepartamentoController = {
 
     }, 
 
-    deleteById: async function (request, response) {
+    deleteById: async function (request, response) {  
         const ID_DEPARTMENT = request.params.id;
         DepartamentoModel.destroy({ where: { id: ID_DEPARTMENT} }).then((result) => {
             if (result === 0) {

@@ -57,12 +57,7 @@ const EmpresaModel = conexion.define("Empresa", {
         type: DataTypes.STRING,
         allowNull: true
     },
- 
-
-    fecha_afiliacion: {
-        type: DataTypes.DATE,
-        allowNull: false
-    },
+  
 
     fecha_inicio_empresa: {
         type: DataTypes.STRING,

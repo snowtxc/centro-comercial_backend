@@ -24,7 +24,7 @@ var ContactoController = {
     create: function (request, response) {
         const body = request.body;
         ContactoModel.create({ Nombre: body.nombre, Apellido: body.apellido, email: body.email, celular: body.celular, estado: body.estado }).then(() => {
-            response.status(201).send({ msg: 'Localidad creada correctamente!' });
+            response.status(201).send({ msg: 'Persona creada correctamente!' });
 
         }).catch((err) => {
             handleFatalError(err);
@@ -36,9 +36,9 @@ var ContactoController = {
     editById: async function (request, response) {
         const ID_CONTACTO = request.params.id;
         const body = request.body;
-
-
-        ContactoModel.update({ Nombre: body.nombre, Apellido: body.apellido, email: body.email,celular: body.celular }, { where: { id: ID_CONTACTO } }).then((result) => {
+   
+        
+        ContactoModel.update({ Nombre: body.nombre, Apellido: body.apellido, email: body.email,celular: body.celular ,estado: body.estado}, { where: { id: ID_CONTACTO } }).then((result) => {
             if (result[0] == 0) {
                 response.status(400).send("Contacto que intentas editar no existe con ese id");
 

@@ -1,5 +1,5 @@
 const server = require("./server");
-const PORT = process.ENV | 3712;
+const PORT =  3712;
 
 const con = require("./database");
 
